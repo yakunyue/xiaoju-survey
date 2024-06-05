@@ -13,7 +13,6 @@ public class ExceptionDescriptor {
 
     private String serviceName;
     private String ipAddress;
-    private String url;
 
     private List<ExceptionSummary> cause;
 
@@ -40,14 +39,6 @@ public class ExceptionDescriptor {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public List<ExceptionSummary> getCause() {
@@ -82,12 +73,11 @@ public class ExceptionDescriptor {
         this.traceId = traceId;
     }
 
-    public static ExceptionDescriptor newFromException(Exception ex, String serviceName, String ipAddress, String url, String info, String traceId) {
+    public static ExceptionDescriptor newFromException(Exception ex, String serviceName, String ipAddress,  String info, String traceId) {
 
         ExceptionDescriptor descriptor = new ExceptionDescriptor();
         descriptor.setServiceName(serviceName);
-        descriptor.setIpAddress(ipAddress);
-        descriptor.setUrl(url);
+
         descriptor.setInfo(info);
         descriptor.setTraceId(traceId);
 
@@ -118,11 +108,7 @@ public class ExceptionDescriptor {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         sb.append("异常提示信息:");
-        if (Objects.nonNull(this.url)) {
-            sb.append("\n");
-            sb.append("请求地址:");
-            sb.append(this.url.trim());
-        }
+
         LambadaCounter counter = new LambadaCounter();
 
         if (Objects.nonNull(this.cause) && this.cause.size() > 0) {

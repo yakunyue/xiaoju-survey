@@ -5,10 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
@@ -38,23 +34,15 @@ public class ExceptionDescriptorBuilder {
         }
     }
 
-    public ExceptionDescriptor build(Exception e) {
-        return build(e, null);
-    }
-
-    public ExceptionDescriptor build(Exception ex, HttpServletRequest request) {
+    public ExceptionDescriptor build(Exception ex) {
         if (!showExceptionMsg) return null;
-        if (request == null) {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            if (attributes != null) request = attributes.getRequest();
-        }
+
         String traceId = null;
         try {
             traceId = MDC.get("traceId");
         } catch (Exception e) {
 
         }
-        return ExceptionDescriptor.newFromException(ex, this.applicationName, this.ipAddress,
-                request == null ? null : request.getRequestURI(), ex.getMessage(), traceId);
+        return ExceptionDescriptor.newFromException(ex, this.applicationName, this.ipAddress, ex.getMessage(), traceId);
     }
 }

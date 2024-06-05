@@ -30,33 +30,33 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public RpcResult<Void> handleRuntimeException(RuntimeException e, HttpServletRequest request) {
         logError(e, request);
-        return RpcResult.fail(exDesBuilder.build(e, request));
+        return RpcResult.fail(exDesBuilder.build(e));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public RpcResult<String> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         logError(e, request);
-        return RpcResult.fail(exDesBuilder.build(e, request));
+        return RpcResult.fail(exDesBuilder.build(e));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public RpcResult<String> handleHttpRequestMethodNotSupported(HttpMessageNotReadableException e, HttpServletRequest request) {
         logError(e, request);
-        return RpcResult.fail("参数解析错误", exDesBuilder.build(e, request));
+        return RpcResult.fail("参数解析错误", exDesBuilder.build(e));
     }
 
     @ExceptionHandler(BindException.class)
     public RpcResult<String> handleBindException(BindException e, HttpServletRequest request) {
         logError(e, request);
         String message = e.getAllErrors().get(0).getDefaultMessage();
-        return RpcResult.fail(message, exDesBuilder.build(e, request));
+        return RpcResult.fail(message, exDesBuilder.build(e));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
         logError(e, request);
         String message = e.getBindingResult().getFieldError().getDefaultMessage();
-        return RpcResult.fail(message, exDesBuilder.build(e, request));
+        return RpcResult.fail(message, exDesBuilder.build(e));
     }
 
     /**
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public RpcResult<String> handleDuplicateKeyException(DuplicateKeyException e, HttpServletRequest request) {
         logError(e, request);
-        return RpcResult.fail("数据重复，不允许操作", exDesBuilder.build(e, request));
+        return RpcResult.fail("数据重复，不允许操作", exDesBuilder.build(e));
     }
 
 
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SQLException.class)
     public RpcResult<String> handleSQLException(SQLException e, HttpServletRequest request) {
         logError(e, request);
-        return RpcResult.fail("sql 异常", exDesBuilder.build(e, request));
+        return RpcResult.fail("sql 异常", exDesBuilder.build(e));
     }
 
 
